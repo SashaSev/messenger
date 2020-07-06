@@ -10,4 +10,4 @@ export default `
         createChannel(teamId: Int!, name: String!, public: Boolean=false): Boolean!
     }
     
-`
+`;

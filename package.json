@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec babel-node server.js"
+    "start": "nodemon --exec babel-node server.js",
+    "lint": "eslint src/**/*.js src/**/*.jsx"
   },
   "keywords": [],
   "author": "",
@@ -17,12 +18,20 @@
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-plugin-import": "^2.20.2"
   },
+  "eslintConfig": {
+    "extends": [
+      "eslint:recommended",
+      "plugin:react/recommended"
+    ]
+  },
   "dependencies": {
     "apollo-link": "^1.2.14",
     "apollo-server-express": "^2.13.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-react": "^7.20.0",
     "express": "^4.17.1",
     "graphql": "^15.0.0",
     "graphql-tools": "^5.0.0",
