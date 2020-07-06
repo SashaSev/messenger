@@ -40,3 +40,8 @@ server.applyMiddleware({ app });
 models.sequelize.sync({}).then(() => {
   app.listen({ port: 5001 });
 });
+//  "husky": {
+//    "hooks": {
+//      "pre-commit": "npm run lint"
+//    }
+//  },

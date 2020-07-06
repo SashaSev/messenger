@@ -1,26 +1,28 @@
 import React from 'react';
-import { Grid } from 'semantic-ui-react';
-import TeamHeader from '../components/TeamHeader';
-import MessageInput from '../components/MessageInput';
-import TeamSidebar from '../components/TeamSidebar';
 
+import Channels from '../components/Channels';
+import Teams from '../components/Teams';
+import Header from '../components/Header';
+import Messages from '../components/Messages';
+import Input from '../components/Input';
+import AppLayout from '../components/AppLayout';
 
 const ViewTeam = () => (
-    <Grid>
-        <Grid.Column width={3}>
-            <TeamSidebar
-                teamName={'Bob is Cool'}
-                username={'Bob the first'}
-                channelName={['general', 'random']}
-                usersToDm={['slackbot', 'Bob the first', 'Bob the second']}
-            />
-        </Grid.Column>
-        <Grid.Column width={10}>
-            <TeamHeader/>
-            <MessageInput/>
-        </Grid.Column>
-        <MessageInput/>
-    </Grid>
+    <AppLayout>
+        <Teams>Teams</Teams>
+        <Channels>Channels</Channels>
+        <Header>Header</Header>
+        <Messages>
+            <ul className="message-list">
+                <li/>
+                <li/>
+            </ul>
+        </Messages>
+        <Input>
+            <input type="text" placeholder="css grid Layout module"/>
+        </Input>
+
+    </AppLayout>
 );
 
 export default ViewTeam;

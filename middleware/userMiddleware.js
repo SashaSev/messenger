@@ -2,7 +2,6 @@ import jwt from 'jsonwebtoken';
 import models from '../models';
 import { refreshTokens } from '../controller/auth';
 
-
 const { SECRET } = process.env;
 const { refreshSECRET } = process.env;
 

@@ -94,7 +94,6 @@ const createResolver = (resolver) => {
 };
 
 export const requireAuth = createResolver((parent, args, { user }) => {
-  console.log(user);
   if (!user || !user.id) {
     throw new Error('Not Authenticated');
   }
