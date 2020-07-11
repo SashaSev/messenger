@@ -5,7 +5,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node --exec babel-node server.js",
+    "start": " babel-node server.js",
     "heroku-postbuild": "cd slack-clone-client && npm install && npm run build",
     "lint": "eslint \"**/*.js\" --ignore-pattern node_modules/"
   },
