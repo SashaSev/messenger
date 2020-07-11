@@ -1,26 +1,26 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
-import gql  from 'graphql-tag';
+import gql from 'graphql-tag';
 import Channels from '../components/Channels';
 import Teams from '../components/Teams';
-import _ from 'lodash';
-import decode from "jwt-decode";
+import findIndex from 'lodash/findIndex';
+import decode from 'jwt-decode';
 
 const SideBar = ({ data: { loading, allTeams }, currentTimeId }) => {
   if (loading) {
     return null;
   }
 
-  const teamIdx = _.findIndex(allTeams,['id', currentTimeId]);
-  const team = teamIdx!==-1 ? allTeams[teamIdx] : "";
+  const teamIdx = currentTimeId ? findIndex(allTeams, ['id', parseInt(currentTimeId, 10)]) : 0;
+  const team = teamIdx !== -1 ? allTeams[teamIdx] : '';
   let username = '';
-try{
-  const token = localStorage.getItem("token");
-  const {user} = decode(token);
-  username = user.username
-}catch (e) {
+  try {
+    const token = localStorage.getItem('token');
+    const { user } = decode(token);
+    username = user.username;
+  } catch (e) {
 
-}
+  }
 
   return [<Teams key={'team-sidebar'} teams={allTeams && allTeams.map(t => ({
     id: t.id,
@@ -30,7 +30,7 @@ try{
     <Channels
       key={'channel-sidebar'}
       teamName={team.name}
-      username={'UserName'}
+      username={username}
       channels={team.channels}
       users={[{
         id: 1,
@@ -45,12 +45,12 @@ try{
 };
 
 ;
-const allteamQuery = gql`
+const allTeamQuery = gql`
     {
         allTeams {
             id
             name
-            channels {
+            channels{
                 id
                 name
             }
@@ -58,4 +58,4 @@ const allteamQuery = gql`
     }
 `;
 
-export default graphql(allteamQuery)(SideBar);
+export default graphql(allTeamQuery)(SideBar);

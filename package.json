@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon --exec babel-node server.js",
+    "heroku-postbuild": "cd slack-clone-client && npm install && npm run build",
     "lint": "eslint \"**/*.js\" --ignore-pattern node_modules/"
   },
   "keywords": [],

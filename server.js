@@ -33,9 +33,17 @@ const server = new ApolloServer({
     SECRET,
     refreshSECRET,
   }),
+
 });
 
 server.applyMiddleware({ app });
+
+if (process.env.NODE_ENV === 'production'){
+  app.use(express.static('slack-clone-client/build'));
+  app.get("*", (req,res) => {
+    res.sendFile(path.join(__dirname, "slack-clone-client", "build", "index.html"))
+  })
+}
 
 models.sequelize.sync({}).then(() => {
   app.listen({ port: 5001 });
@@ -45,3 +53,5 @@ models.sequelize.sync({}).then(() => {
 //      "pre-commit": "npm run lint"
 //    }
 //  },
+// $ lsof -i tcp:3000
+// $ kill -9 PID

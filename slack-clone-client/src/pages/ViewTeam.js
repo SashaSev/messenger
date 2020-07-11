@@ -7,9 +7,9 @@ import AppLayout from '../components/AppLayout';
 import SendMessage from '../components/SendMessage';
 import SideBar from '../containers/SideBar';
 
-const ViewTeam = () => (
+const ViewTeam = ({match: {params}}) => (
   <AppLayout>
-
+    <SideBar currentTimeId={params.teamId}/>
     <Header channelName={"general"}/>
     <Messages>
       <ul className="message-list">
@@ -18,7 +18,7 @@ const ViewTeam = () => (
       </ul>
     </Messages>
   <SendMessage channelName={"general"}/>
-  <SideBar currentTimeId={1}/>
+
   </AppLayout>
 );
 
