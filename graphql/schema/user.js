@@ -25,4 +25,4 @@ export default `
       register(username: String!, email: String!, password: String!): RegisterResponse!
       login(email:String!, password: String!): LoginResponse!
     }
-  `
+  `;

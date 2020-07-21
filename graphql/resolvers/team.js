@@ -1,21 +1,30 @@
-import { formatError } from '../../controller/formatError';
-import { requireAuth } from '../../controller/auth';
+import { formatError } from "../../controller/formatError";
+import { requireAuth } from "../../controller/auth";
 
 export default {
   Query: {
-    allTeams: requireAuth.createResolver(async (parent, args, { models, user }) =>
-
-    models.Team.findAll({where: { owner: user.id } }, { raw: true }))
+    allTeams: requireAuth.createResolver(
+      async (parent, args, { models, user }) =>
+        await models.Team.findAll({
+          where: { owner: user.id },
+          raw: true,
+        })
+    ),
     // models.Team.findAll({ where: { owner: user.id } }, { raw: true })),
   },
   Mutation: {
     createTeam: async (parent, args, { models, user }) => {
       try {
+        console.log(user.id);
         const team = await models.Team.create({
           ...args,
-          owner: user.id
+          owner: user.id,
         });
-        await models.Channel.create({name: 'general', public: true, teamId: team.id})
+        await models.Channel.create({
+          name: "general",
+          public: true,
+          teamId: team.id,
+        });
         return {
           ok: true,
           team,
@@ -30,7 +39,7 @@ export default {
     },
   },
   Team: {
-    channels: ({ id }, args, { models }) => models.Channel.findAll({ where: { teamId: id } }),
-  }
-
+    channels: ({ id }, args, { models }) =>
+      models.Channel.findAll({ where: { teamId: id } }),
+  },
 };

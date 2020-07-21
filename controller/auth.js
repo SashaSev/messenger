@@ -1,31 +1,36 @@
-import jwt from 'jsonwebtoken';
-import _ from 'lodash';
-import bcrypt from 'bcryptjs';
+import jwt from "jsonwebtoken";
+import _ from "lodash";
+import bcrypt from "bcryptjs";
 
 const createToken = async (user, SECRET, refreshSECRTET) => {
   const token = await jwt.sign(
     {
-      user: _.pick(user, ['id', 'username']),
+      user: _.pick(user, ["id", "username"]),
     },
     SECRET,
     {
-      expiresIn: '1h',
-    },
+      expiresIn: "1h",
+    }
   );
   const refreshToken = await jwt.sign(
     {
-      user: _.pick(user, ['id']),
+      user: _.pick(user, ["id"]),
     },
     refreshSECRTET,
     {
-      expiresIn: '7d',
-
-    },
+      expiresIn: "7d",
+    }
   );
   return [token, refreshToken];
 };
 
-export const refreshTokens = async (token, refreshToken, models, SECRET, SECRET2) => {
+export const refreshTokens = async (
+  token,
+  refreshToken,
+  models,
+  SECRET,
+  SECRET2
+) => {
   let userId = null;
   try {
     const { user } = jwt.decode(refreshToken);
@@ -47,7 +52,11 @@ export const refreshTokens = async (token, refreshToken, models, SECRET, SECRET2
   } catch (e) {
     return {};
   }
-  const [newToken, newRefreshToken] = await createToken(user, SECRET, refreshSecret);
+  const [newToken, newRefreshToken] = await createToken(
+    user,
+    SECRET,
+    refreshSecret
+  );
   return {
     token: newToken,
     refreshToken: newRefreshToken,
@@ -55,24 +64,34 @@ export const refreshTokens = async (token, refreshToken, models, SECRET, SECRET2
   };
 };
 
-export const Login = async (email, password, models, SECRET, refreshSECRTET) => {
+export const Login = async (
+  email,
+  password,
+  models,
+  SECRET,
+  refreshSECRTET
+) => {
   const user = await models.User.findOne({ where: { email }, raw: true });
   if (!user) {
     return {
       ok: false,
-      errors: [{ path: 'email', message: 'Wrong email' }],
+      errors: [{ path: "email", message: "Wrong email" }],
     };
   }
   const valid = await bcrypt.compare(password, user.password);
   if (!valid) {
     return {
       ok: false,
-      errors: [{ path: 'password', message: 'Wrong password' }],
+      errors: [{ path: "password", message: "Wrong password" }],
     };
   }
   const refreshTokenSecret = user.password + refreshSECRTET;
 
-  const [token, refreshToken] = await createToken(user, SECRET, refreshTokenSecret);
+  const [token, refreshToken] = await createToken(
+    user,
+    SECRET,
+    refreshTokenSecret
+  );
 
   return {
     ok: true,
@@ -95,6 +114,6 @@ const createResolver = (resolver) => {
 
 export const requireAuth = createResolver((parent, args, { user }) => {
   if (!user || !user.id) {
-    throw new Error('Not Authenticated');
+    throw new Error("Not Authenticated");
   }
 });

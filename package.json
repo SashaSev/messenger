@@ -1,13 +1,17 @@
 {
-
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
+  },
   "name": "slack-clone-server",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": " babel-node server.js",
+    "start": "nodemon --exec babel-node server.js",
     "heroku-postbuild": "cd slack-clone-client && npm install && npm run build",
-    "lint": "eslint \"**/*.js\" --ignore-pattern node_modules/"
+    "lint": "eslint \"**/*.js\" --ignore-pattern node_modules/ slack-clone-client/"
   },
   "keywords": [],
   "author": "",
@@ -18,7 +22,10 @@
     "babel-preset-stage-3": "^6.24.1",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
-    "eslint-plugin-import": "^2.20.2"
+    "eslint-plugin-import": "^2.20.2",
+    "husky": "^4.2.5",
+    "nodemon": "^2.0.4",
+    "prettier": "2.0.5"
   },
   "eslintConfig": {
     "extends": [
@@ -32,12 +39,12 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
+    "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-react": "^7.20.0",
     "express": "^4.17.1",
     "graphql": "^15.0.0",
     "graphql-tools": "^5.0.0",
-    "husky": "^4.2.5",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.19",
     "merge-graphql-schemas": "^1.7.8",
@@ -46,4 +53,3 @@
     "sequelize": "^5.21.8"
   }
 }
-

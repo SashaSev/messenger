@@ -1,5 +1,5 @@
-import { Login } from '../../controller/auth';
-import { formatError } from '../../controller/formatError';
+import { Login } from "../../controller/auth";
+import { formatError } from "../../controller/formatError";
 
 export default {
   Query: {
@@ -8,7 +8,8 @@ export default {
   },
   Mutation: {
     // eslint-disable-next-line max-len
-    login: (parent, { email, password }, { models, SECRET, refreshSECRET }) => Login(email, password, models, SECRET, refreshSECRET),
+    login: (parent, { email, password }, { models, SECRET, refreshSECRET }) =>
+      Login(email, password, models, SECRET, refreshSECRET),
     register: async (parent, args, { models }) => {
       try {
         const user = await models.User.create(args);
