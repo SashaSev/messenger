@@ -1,25 +1,25 @@
-import jwt from "jsonwebtoken";
-import _ from "lodash";
-import bcrypt from "bcryptjs";
+import jwt from 'jsonwebtoken';
+import _ from 'lodash';
+import bcrypt from 'bcryptjs';
 
 const createToken = async (user, SECRET, refreshSECRTET) => {
   const token = await jwt.sign(
     {
-      user: _.pick(user, ["id", "username"]),
+      user: _.pick(user, ['id', 'username']),
     },
     SECRET,
     {
-      expiresIn: "1h",
-    }
+      expiresIn: '1h',
+    },
   );
   const refreshToken = await jwt.sign(
     {
-      user: _.pick(user, ["id"]),
+      user: _.pick(user, ['id']),
     },
     refreshSECRTET,
     {
-      expiresIn: "7d",
-    }
+      expiresIn: '7d',
+    },
   );
   return [token, refreshToken];
 };
@@ -29,7 +29,7 @@ export const refreshTokens = async (
   refreshToken,
   models,
   SECRET,
-  SECRET2
+  SECRET2,
 ) => {
   let userId = null;
   try {
@@ -55,7 +55,7 @@ export const refreshTokens = async (
   const [newToken, newRefreshToken] = await createToken(
     user,
     SECRET,
-    refreshSecret
+    refreshSecret,
   );
   return {
     token: newToken,
@@ -69,20 +69,20 @@ export const Login = async (
   password,
   models,
   SECRET,
-  refreshSECRTET
+  refreshSECRTET,
 ) => {
   const user = await models.User.findOne({ where: { email }, raw: true });
   if (!user) {
     return {
       ok: false,
-      errors: [{ path: "email", message: "Wrong email" }],
+      errors: [{ path: 'email', message: 'Wrong email' }],
     };
   }
   const valid = await bcrypt.compare(password, user.password);
   if (!valid) {
     return {
       ok: false,
-      errors: [{ path: "password", message: "Wrong password" }],
+      errors: [{ path: 'password', message: 'Wrong password' }],
     };
   }
   const refreshTokenSecret = user.password + refreshSECRTET;
@@ -90,7 +90,7 @@ export const Login = async (
   const [token, refreshToken] = await createToken(
     user,
     SECRET,
-    refreshTokenSecret
+    refreshTokenSecret,
   );
 
   return {
@@ -114,6 +114,6 @@ const createResolver = (resolver) => {
 
 export const requireAuth = createResolver((parent, args, { user }) => {
   if (!user || !user.id) {
-    throw new Error("Not Authenticated");
+    throw new Error('Not Authenticated');
   }
 });

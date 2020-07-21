@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { Link } from "react-router-dom";
+import React from 'react';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const TeamWrapper = styled.div`
   grid-column: 1;
@@ -40,6 +40,7 @@ const team = ({ id, letter }) => (
   </Link>
 );
 
+// eslint-disable-next-line react/display-name
 export default ({ teams }) => (
   <TeamWrapper>
     <TeamList>{teams && teams.map(team)}</TeamList>

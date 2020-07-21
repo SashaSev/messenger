@@ -1,20 +1,20 @@
-import React, { useState } from "react";
-import { Button, Container, Header, Input, Message } from "semantic-ui-react";
-import { observer } from "mobx-react-lite";
-import { observable } from "mobx";
-import gql from "graphql-tag";
-import { graphql } from "react-apollo";
+import React, { useState } from 'react';
+import {
+  Button, Container, Header, Input, Message,
+} from 'semantic-ui-react';
+import { observer } from 'mobx-react-lite';
+import { observable } from 'mobx';
+import gql from 'graphql-tag';
+import { graphql } from 'react-apollo';
 
 const CreateTeam = (props) => {
-  const [data, setData] = useState(() =>
-    observable({ name: "", nameError: "" })
-  );
+  const [data, setData] = useState(() => observable({ name: '', nameError: '' }));
   const { name, nameError } = data;
 
-  const onSubmit = async (e) => {
+  const onSubmit = async () => {
     setData({
       ...data,
-      nameError: "",
+      nameError: '',
     });
     let response;
     try {
@@ -22,13 +22,12 @@ const CreateTeam = (props) => {
         variables: { name },
       });
     } catch (e) {
-      props.history.push("/login");
+      props.history.push('/login');
       return;
     }
 
     const { ok, errors, team } = response.data.createTeam;
     if (ok) {
-      console.log(team.id);
       props.history.push(`/view-team/${team.id}`);
     } else {
       const err = {};
@@ -41,6 +40,7 @@ const CreateTeam = (props) => {
   };
 
   const onChange = (e) => {
+    // eslint-disable-next-line no-shadow
     const { name, value } = e.target;
     setData({ ...data, [name]: value });
   };
@@ -54,21 +54,21 @@ const CreateTeam = (props) => {
     <Container text>
       <Header as="h2">Team</Header>
       <Input
-        style={{ marginBottom: "10px" }}
+        style={{ marginBottom: '10px' }}
         name="name"
         value={name}
         error={!!nameError}
         onChange={onChange}
-        placeholder={"Team name"}
+        placeholder={'Team name'}
         fluid
       />
-      <Button style={{ marginLeft: "15vw" }} onClick={onSubmit}>
+      <Button style={{ marginLeft: '15vw' }} onClick={onSubmit}>
         Submit
       </Button>
       {errorList.length > 0 ? (
         <Message
           error
-          header={"There was some errors with your submission"}
+          header={'There was some errors with your submission'}
           list={errorList}
         />
       ) : null}

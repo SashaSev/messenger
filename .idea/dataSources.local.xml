@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="dataSourceStorageLocal">
-    <data-source name="PostgreSQL - postgres@localhost" uuid="67147cd1-9dac-4e04-bb54-61505b3cb933">
+    <data-source name="PostgreSQL - postgres@localhost" uuid="62fc1118-7e15-4fa6-9449-0ecc8d4fff40">
       <database-info product="PostgreSQL" version="12.2 (Ubuntu 12.2-4)" jdbc-version="4.2" driver-name="PostgreSQL JDBC Driver" driver-version="42.2.5" dbms="POSTGRES" exact-version="12.2" exact-driver-version="42.2">
         <identifier-quote-string>&quot;</identifier-quote-string>
       </database-info>

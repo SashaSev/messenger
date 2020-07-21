@@ -1,5 +1,6 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
+import { Icon } from 'semantic-ui-react';
 
 const ChannelWrapper = styled.div`
   grid-column: 2;
@@ -19,7 +20,7 @@ const SideBarList = styled.ul`
   padding-left: 0px;
 `;
 
-const paddingLeft = "padding-left: 10px";
+const paddingLeft = 'padding-left: 10px';
 
 const SideBarListItem = styled.li`
   padding: 2px;
@@ -41,35 +42,37 @@ const Green = styled.span`
   color: #38978d;
 `;
 
-const Bubble = ({ on = true }) => (on ? <Green>●</Green> : "○");
+const Bubble = ({ on = true }) => (on ? <Green>●</Green> : '○');
 
 const channel = ({ id, name }) => (
-  <SideBarListItem key={`channel-${id}`}># {name}</SideBarListItem>
+    <SideBarListItem key={`channel-${id}`}># {name}</SideBarListItem>
 );
 
 const user = ({ id, name }) => (
-  <SideBarListItem key={`user-${id}`}>
-    <Bubble /> {name}
-  </SideBarListItem>
+    <SideBarListItem key={`user-${id}`}>
+        <Bubble/> {name}
+    </SideBarListItem>
 );
 
-export default ({ teamName, username, channels, users }) => (
-  <ChannelWrapper>
-    <PushLeft>
-      <TeamNameHeader>{teamName}</TeamNameHeader>
-      {username}
-    </PushLeft>
-    <div>
-      <SideBarList>
-        <SideBarListHeader>Channels</SideBarListHeader>
-        {channels && channels.map(channel)}
-      </SideBarList>
-    </div>
-    <div>
-      <SideBarList>
-        <SideBarListHeader>Direct Messages</SideBarListHeader>
-        {users.map(user)}
-      </SideBarList>
-    </div>
-  </ChannelWrapper>
+export default ({
+  teamName, username, channels, users, onAddChannels,
+}) => (
+    <ChannelWrapper>
+        <PushLeft>
+            <TeamNameHeader>{teamName}</TeamNameHeader>
+            {username}
+        </PushLeft>
+        <div>
+            <SideBarList>
+                <SideBarListHeader>Channels <Icon onClick={onAddChannels} name={'add circle'}/></SideBarListHeader>
+                {channels && channels.map(channel)}
+            </SideBarList>
+        </div>
+        <div>
+            <SideBarList>
+                <SideBarListHeader>Direct Messages</SideBarListHeader>
+                {users.map(user)}
+            </SideBarList>
+        </div>
+    </ChannelWrapper>
 );

@@ -1,32 +1,37 @@
-import React, { useState } from "react";
-import { Button, Container, Header, Input, Message } from "semantic-ui-react";
-import { observer } from "mobx-react-lite";
-import { observable } from "mobx";
-import gql from "graphql-tag";
-import { graphql } from "react-apollo";
+import React, { useState } from 'react';
+import {
+  Button, Container, Header, Input, Message,
+} from 'semantic-ui-react';
+import { observer } from 'mobx-react-lite';
+import { observable } from 'mobx';
+import gql from 'graphql-tag';
+import { graphql } from 'react-apollo';
 
 const Login = (props) => {
-  const [data, setData] = useState(() =>
-    observable({ email: "", password: "", emailError: "", passwordError: "" })
-  );
-  const { email, password, emailError, passwordError } = data;
+  const [data, setData] = useState(() => observable({
+    email: '', password: '', emailError: '', passwordError: '',
+  }));
+  const {
+    email, password, emailError, passwordError,
+  } = data;
   const onSubmit = async () => {
     setData({
       ...data,
-      emailError: "",
-      passwordError: "",
+      emailError: '',
+      passwordError: '',
     });
     const response = await props.mutate({
       variables: { email, password },
     });
-    console.log(response);
-    const { ok, errors, token, refreshToken } = response.data.login;
+    const {
+      ok, errors, token, refreshToken,
+    } = response.data.login;
     if (ok) {
-      localStorage.setItem("token", token);
-      localStorage.setItem("refreshToken", refreshToken);
-      props.history.push("/");
+      localStorage.setItem('token', token);
+      localStorage.setItem('refreshToken', refreshToken);
+      props.history.push('/');
     } else {
-      let err = {};
+      const err = {};
       errors.forEach(({ path, message }) => {
         err[`${path}Error`] = message;
       });
@@ -40,7 +45,7 @@ const Login = (props) => {
     setData({ ...data, [name]: value });
   };
 
-  let errorList = [];
+  const errorList = [];
 
   if (emailError) {
     errorList.push(emailError);
@@ -52,29 +57,29 @@ const Login = (props) => {
     <Container text>
       <Header as="h2">Login</Header>
       <Input
-        style={{ marginBottom: "10px" }}
+        style={{ marginBottom: '10px' }}
         name="email"
         value={email}
         onChange={onChange}
-        placeholder={"Email"}
+        placeholder={'Email'}
         fluid
       />
       <Input
-        style={{ marginBottom: "10px" }}
-        type={"password"}
+        style={{ marginBottom: '10px' }}
+        type={'password'}
         name="password"
         value={password}
         onChange={onChange}
-        placeholder={"Password"}
+        placeholder={'Password'}
         fluid
       />
-      <Button style={{ marginLeft: "15vw" }} onClick={onSubmit}>
+      <Button style={{ marginLeft: '15vw' }} onClick={onSubmit}>
         Submit
       </Button>
       {errorList.length > 0 ? (
         <Message
           error
-          header={"There was some errors with your submission"}
+          header={'There was some errors with your submission'}
           list={errorList}
         />
       ) : null}

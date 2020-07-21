@@ -1,7 +1,7 @@
 {
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint"
+      "pre-commit": "npm run lint -- --fix"
     }
   },
   "name": "slack-clone-server",
@@ -43,6 +43,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-react": "^7.20.0",
     "express": "^4.17.1",
+    "formik": "^2.1.5",
     "graphql": "^15.0.0",
     "graphql-tools": "^5.0.0",
     "jsonwebtoken": "^8.5.1",

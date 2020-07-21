@@ -1,4 +1,5 @@
 /node_modules
 slack-clone-client/node_modules
 .env
+.idea
 yarn-error.log

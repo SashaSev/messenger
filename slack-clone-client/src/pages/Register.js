@@ -1,16 +1,18 @@
-import React, { useState } from "react";
-import { Container, Input, Header, Button, Message } from "semantic-ui-react";
-import { graphql } from "react-apollo";
-import gql from "graphql-tag";
+import React, { useState } from 'react';
+import {
+  Container, Input, Header, Button, Message,
+} from 'semantic-ui-react';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 
 const Register = (props) => {
   const [data, setData] = useState({
-    username: "",
-    usernameError: "",
-    email: "",
-    emailError: "",
-    password: "",
-    passwordError: "",
+    username: '',
+    usernameError: '',
+    email: '',
+    emailError: '',
+    password: '',
+    passwordError: '',
   });
   const {
     username,
@@ -31,9 +33,9 @@ const Register = (props) => {
   const onSubmit = async () => {
     setData({
       ...data,
-      usernameError: "",
-      emailError: "",
-      passwordError: "",
+      usernameError: '',
+      emailError: '',
+      passwordError: '',
     });
     const response = await props.mutate({
       variables: {
@@ -46,7 +48,7 @@ const Register = (props) => {
     const { ok, errors } = response.data.register;
 
     if (ok) {
-      props.history.push("/");
+      props.history.push('/');
     } else {
       const err = {};
       errors.forEach(({ path, message }) => {
@@ -71,40 +73,40 @@ const Register = (props) => {
     <Container text>
       <Header as="h2">Register</Header>
       <Input
-        style={{ marginBottom: "10px" }}
+        style={{ marginBottom: '10px' }}
         error={!!usernameError}
         name="username"
         value={data.username}
         onChange={onChange}
-        placeholder={"Username"}
+        placeholder={'Username'}
         fluid
       />
       <Input
-        style={{ marginBottom: "10px" }}
+        style={{ marginBottom: '10px' }}
         error={!!emailError}
         name="email"
         value={data.email}
         onChange={onChange}
-        placeholder={"Email"}
+        placeholder={'Email'}
         fluid
       />
       <Input
-        style={{ marginBottom: "10px" }}
+        style={{ marginBottom: '10px' }}
         error={!!passwordError}
-        type={"password"}
+        type={'password'}
         name="password"
         value={data.password}
         onChange={onChange}
-        placeholder={"Password"}
+        placeholder={'Password'}
         fluid
       />
-      <Button style={{ marginLeft: "15vw" }} onClick={onSubmit}>
+      <Button style={{ marginLeft: '15vw' }} onClick={onSubmit}>
         Submit
       </Button>
       {errorList.length > 0 ? (
         <Message
           error
-          header={"There was some errors with your submission"}
+          header={'There was some errors with your submission'}
           list={errorList}
         />
       ) : null}

@@ -1,17 +1,17 @@
-import React from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
-import decode from "jwt-decode";
-import Home from "./pages/Home";
+import React from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import decode from 'jwt-decode';
+import Home from './pages/Home';
 
-import "./App.css";
-import Register from "./pages/Register";
-import Login from "./pages/Login";
-import CreateTeam from "./pages/createTeam";
-import ViewTeam from "./pages/ViewTeam";
+import './App.css';
+import Register from './pages/Register';
+import Login from './pages/Login';
+import CreateTeam from './pages/createTeam';
+import ViewTeam from './pages/ViewTeam';
 
 const isAuthenticated = () => {
-  const token = localStorage.getItem("token");
-  const refreshToken = localStorage.getItem("refreshToken");
+  const token = localStorage.getItem('token');
+  const refreshToken = localStorage.getItem('refreshToken');
   try {
     decode(token);
     decode(refreshToken);
@@ -24,8 +24,7 @@ const isAuthenticated = () => {
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
-    render={(props) =>
-      isAuthenticated ? <Component {...props} /> : <Redirect to="/login" />
+    render={(props) => (isAuthenticated ? <Component {...props} /> : <Redirect to="/login" />)
     }
   />
 );
@@ -33,11 +32,11 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 function App() {
   return (
     <Switch>
-      <Route path={"/"} exact component={Home} />
-      <Route path={"/register"} component={Register} />
-      <Route path={"/login"} component={Login} />
-      <PrivateRoute path={"/create-team"} component={CreateTeam} />
-      <Route path={"/view-team/:teamId?/:channelId?"} component={ViewTeam} />
+      <Route path={'/'} exact component={Home} />
+      <Route path={'/register'} component={Register} />
+      <Route path={'/login'} component={Login} />
+      <PrivateRoute path={'/create-team'} component={CreateTeam} />
+      <Route path={'/view-team/:teamId?/:channelId?'} component={ViewTeam} />
     </Switch>
   );
 }
