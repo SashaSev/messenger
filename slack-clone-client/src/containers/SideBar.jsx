@@ -47,6 +47,7 @@ const SideBar = ({ data: { loading, allTeams }, currentTimeId }) => {
             key={'channel-sidebar'}
             teamName={team.name}
             username={username}
+            teamId = {team.id}
             channels={team.channels}
             onAddChannels={handleChanelModal}
             users={[

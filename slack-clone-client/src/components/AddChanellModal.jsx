@@ -6,6 +6,7 @@ import { withFormik } from 'formik';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 import { flowRight as compose } from 'lodash';
+import findIndex from 'lodash/findIndex';
 import { AllTeamQuery } from '../graphql/team';
 
 const AddChanellModal = ({
@@ -31,13 +32,13 @@ const AddChanellModal = ({
 
 const createChannelMutation = gql`
     mutation($teamId: Int!, $name: String!){
-    createChannel(teamId: $teamId, name: $name){
-        ok,
-        channel{
-            id,
-            name
+        createChannel(teamId: $teamId, name: $name){
+            ok,
+            channel{
+                id,
+                name
+            }
         }
-    }
     }
 `;
 
@@ -47,16 +48,33 @@ export default compose(
     mapPropsToValues: () => ({ name: '' }),
     handleSubmit: async (values, { props: { onClose, teamId, mutate }, setSubmitting }) => {
       const response = await mutate({
-        variables: { teamId, name: values.name },
+        variables: {
+          teamId,
+          name: values.name,
+        },
+        optimisticResponse: {
+          __typename: 'Mutation',
+          createChannel: {
+            ok: true,
+            channel: {
+              __typename: 'Channel',
+              id: -1,
+              name: values.name,
+            },
+          },
+        },
         update: (store, { data: { createChannel } }) => {
           const { ok, channel } = createChannel;
           if (!ok) {
             return;
           }
           const data = store.readQuery({ query: AllTeamQuery });
-          console.log(data);
-          data.channels.push(channel);
-          store.writeQuery({ query: AllTeamQuery, data });
+          const teamIdx = findIndex(data.allTeams, ['id', teamId]);
+          data.allTeams[teamIdx].channels.push(channel);
+          store.writeQuery({
+            query: AllTeamQuery,
+            data,
+          });
         },
       });
       onClose();
