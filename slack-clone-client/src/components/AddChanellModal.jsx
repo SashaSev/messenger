@@ -6,6 +6,7 @@ import { withFormik } from 'formik';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 import { flowRight as compose } from 'lodash';
+import { AllTeamQuery } from '../graphql/team';
 
 const AddChanellModal = ({
   open, onCLose, values, handleChange, handleBlur, handleSubmit, isSubmitting,
@@ -30,7 +31,13 @@ const AddChanellModal = ({
 
 const createChannelMutation = gql`
     mutation($teamId: Int!, $name: String!){
-    createChannel(teamId: $teamId, name: $name)
+    createChannel(teamId: $teamId, name: $name){
+        ok,
+        channel{
+            id,
+            name
+        }
+    }
     }
 `;
 
@@ -39,9 +46,19 @@ export default compose(
   withFormik({
     mapPropsToValues: () => ({ name: '' }),
     handleSubmit: async (values, { props: { onClose, teamId, mutate }, setSubmitting }) => {
-      const response = await mutate({ variables: { teamId, name: values.name } });
-      console.log(response);
-      console.log('submitting ...');
+      const response = await mutate({
+        variables: { teamId, name: values.name },
+        update: (store, { data: { createChannel } }) => {
+          const { ok, channel } = createChannel;
+          if (!ok) {
+            return;
+          }
+          const data = store.readQuery({ query: AllTeamQuery });
+          console.log(data);
+          data.channels.push(channel);
+          store.writeQuery({ query: AllTeamQuery, data });
+        },
+      });
       onClose();
       setSubmitting(false);
     },

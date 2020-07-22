@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { graphql } from 'react-apollo';
-import gql from 'graphql-tag';
 import findIndex from 'lodash/findIndex';
 import decode from 'jwt-decode';
 import Channels from '../components/Channels';
 import Teams from '../components/Teams';
+import { AllTeamQuery } from '../graphql/team';
 import AddChanellModal from '../components/AddChanellModal';
 
 const SideBar = ({ data: { loading, allTeams }, currentTimeId }) => {
@@ -21,7 +21,6 @@ const SideBar = ({ data: { loading, allTeams }, currentTimeId }) => {
   const teamIdx = currentTimeId
     ? findIndex(allTeams, ['id', parseInt(currentTimeId, 10)])
     : 0;
-  console.log('openModal', openModal);
   const team = teamIdx !== -1 ? allTeams[teamIdx] : '';
   let username = '';
   try {
@@ -62,21 +61,8 @@ const SideBar = ({ data: { loading, allTeams }, currentTimeId }) => {
             ]}
         />,
         // eslint-disable-next-line radix
-        <AddChanellModal teamId={parseInt(currentTimeId)} onClose={handleChanelModalClose} open={openModal} key={'user-channel-modal'}/>,
+        <AddChanellModal teamId={team.id} onClose={handleChanelModalClose} open={openModal} key={'user-channel-modal'}/>,
   ];
 };
 
-const allTeamQuery = gql`
-    {
-        allTeams {
-            id
-            name
-            channels {
-                id
-                name
-            }
-        }
-    }
-`;
-
-export default graphql(allTeamQuery)(SideBar);
+export default graphql(AllTeamQuery)(SideBar);
