@@ -1,27 +1,26 @@
 import React, { useState } from 'react';
-import { graphql } from 'react-apollo';
-import findIndex from 'lodash/findIndex';
 import decode from 'jwt-decode';
 import Channels from '../components/Channels';
 import Teams from '../components/Teams';
-import { AllTeamQuery } from '../graphql/team';
 import AddChanellModal from '../components/AddChanellModal';
+import InvokeChanelModal from '../components/InvokeChannelModal';
 
-const SideBar = ({ data: { loading, allTeams }, currentTimeId }) => {
+const SideBar = ({ teams, team }) => {
   const [openModal, setOpenModal] = useState(false);
-  if (loading) {
-    return null;
-  }
+  const [openInvokeModal, setOpenInvokeModal] = useState(false);
+
   const handleChanelModalClose = () => {
     setOpenModal(false);
   };
   const handleChanelModal = () => {
     setOpenModal(true);
   };
-  const teamIdx = currentTimeId
-    ? findIndex(allTeams, ['id', parseInt(currentTimeId, 10)])
-    : 0;
-  const team = teamIdx !== -1 ? allTeams[teamIdx] : '';
+  const handleInvokeClose = () => {
+    setOpenInvokeModal(false);
+  };
+  const handleInvitePeopleClick = () => {
+    setOpenInvokeModal(true);
+  };
   let username = '';
   try {
     const token = localStorage.getItem('token');
@@ -30,26 +29,19 @@ const SideBar = ({ data: { loading, allTeams }, currentTimeId }) => {
   } catch (e) {
 
   }
-
   return [
         <Teams
             key={'team-sidebar'}
-            teams={
-                allTeams
-                && allTeams.map((t) => ({
-                  id: t.id,
-                  letter: t.name.charAt(0)
-                    .toUpperCase(),
-                }))
-            }
+            teams={teams}
         />,
         <Channels
             key={'channel-sidebar'}
             teamName={team.name}
             username={username}
-            teamId = {team.id}
+            teamId={team.id}
             channels={team.channels}
             onAddChannels={handleChanelModal}
+            onInvitePeopleClick={handleInvitePeopleClick}
             users={[
               {
                 id: 1,
@@ -62,8 +54,12 @@ const SideBar = ({ data: { loading, allTeams }, currentTimeId }) => {
             ]}
         />,
         // eslint-disable-next-line radix
-        <AddChanellModal teamId={team.id} onClose={handleChanelModalClose} open={openModal} key={'user-channel-modal'}/>,
+        <AddChanellModal teamId={team.id} onClose={handleChanelModalClose} open={openModal}
+                         key={'user-channel-modal'}/>,
+        <InvokeChanelModal teamId={team.id} onClose={handleInvokeClose} open={openInvokeModal}
+                           key={'invite-people-modal'}/>,
+
   ];
 };
 
-export default graphql(AllTeamQuery)(SideBar);
+export default SideBar;
