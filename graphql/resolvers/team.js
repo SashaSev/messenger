@@ -10,16 +10,22 @@ export default {
       }),
     ),
     inviteTeam: requireAuth.createResolver(
-      async (parent, args, { models, user }) => models.Team.findAll({
-        include: [
-          {
-            model: models.User,
-            where: { id: user.id },
-          },
-        ],
-        raw: true,
+      async (parent, args, { models, user }) => models.sequelize.query('select * from members on id = team_id where user_id = ? ', {
+        replacements: [user.id],
+        model: models.Team,
       }),
     ),
+    // inviteTeam: requireAuth.createResolver(
+    //   async (parent, args, { models, user }) => models.Team.findAll({
+    //     include: [
+    //       {
+    //         model: models.User,
+    //         where: { id: user.id },
+    //       },
+    //     ],
+    //     raw: true,
+    //   }),
+    // ),
 
   },
   Mutation: {

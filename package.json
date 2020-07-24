@@ -11,7 +11,8 @@
   "scripts": {
     "start": "nodemon --exec babel-node server.js",
     "heroku-postbuild": "cd slack-clone-client && npm install && npm run build",
-    "lint": "eslint \"**/*.js\" --ignore-pattern node_modules/ slack-clone-client/"
+    "lint": "eslint \"**/*.js\" --ignore-pattern node_modules/ slack-clone-client/ && npm run pretify",
+    "pretify": "npx prettier --config ./.prettierrc.json -c . --write"
   },
   "keywords": [],
   "author": "",
