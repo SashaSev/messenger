@@ -3,11 +3,11 @@ import findIndex from 'lodash/findIndex';
 import { graphql } from 'react-apollo';
 import { Redirect } from 'react-router-dom';
 import Header from '../components/Header';
-import Messages from '../components/Messages';
 import AppLayout from '../components/AppLayout';
 import SendMessage from '../components/SendMessage';
 import SideBar from '../containers/SideBar';
 import { AllTeamQuery } from '../graphql/team';
+import MessageContainer from '../containers/MessageContainer';
 
 const ViewTeam = ({
   data: { loading, allTeams, inviteTeam },
@@ -23,7 +23,6 @@ const ViewTeam = ({
     return <Redirect to={'/create-team'} />;
   }
   const teams = [...allTeams, ...inviteTeam];
-  // console.log(inviteTeam);
   const teamIdInteger = parseInt(teamId, 10);
   const teamIdx = teamIdInteger ? findIndex(teams, ['id', teamIdInteger]) : 0;
   const team = teamIdx === -1 ? teams[0] : teams[teamIdx];
@@ -44,15 +43,9 @@ const ViewTeam = ({
                 team={team}
             />
             {channel && <Header channelName={channel.name} />}
-            {channel && (
-                <Messages channelId={channel.id}>
-                    <ul className="message-list">
-                        <li />
-                        <li />
-                    </ul>
-                </Messages>
+            {channel && (<MessageContainer channelId={channel.id} />
             )}
-            <SendMessage channelName={channel.name} />
+            <SendMessage channelName={channel.name} channelId={channel.id} />
         </AppLayout>
   );
 };
