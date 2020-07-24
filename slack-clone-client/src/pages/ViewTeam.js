@@ -20,7 +20,6 @@ const ViewTeam = ({
   if (!allTeams?.length) {
     return (<Redirect to={'/create-team'}/>);
   }
-  console.log(inviteTeam);
   const teams = [...allTeams, ...inviteTeam];
   // console.log(inviteTeam);
   const teamIdInteger = parseInt(teamId, 10);
