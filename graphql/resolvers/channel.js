@@ -4,7 +4,10 @@ export default {
   Mutation: {
     createChannel: async (parent, args, { models, user }) => {
       try {
-        const teams = await models.Team.findOne({ where: { id: args.teamId }, raw: true });
+        const teams = await models.Team.findOne({
+          where: { id: args.teamId },
+          raw: true,
+        });
         if (!teams.owner !== user.id) {
           return {
             ok: false,

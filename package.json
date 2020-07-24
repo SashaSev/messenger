@@ -1,57 +1,56 @@
 {
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint -- --fix"
+    "husky": {
+        "hooks": {
+            "pre-commit": "npm run lint -- --fix"
+        }
+    },
+    "name": "slack-clone-server",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "nodemon --exec babel-node server.js",
+        "heroku-postbuild": "cd slack-clone-client && npm install && npm run build",
+        "lint": "eslint \"**/*.js\" --ignore-pattern node_modules/ slack-clone-client/ "
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "babel-cli": "^6.26.0",
+        "babel-preset-env": "^1.7.0",
+        "babel-preset-stage-3": "^6.24.1",
+        "eslint": "^6.8.0",
+        "eslint-config-airbnb-base": "^14.1.0",
+        "eslint-plugin-import": "^2.20.2",
+        "husky": "^4.2.5",
+        "nodemon": "^2.0.4",
+        "prettier": "2.0.5"
+    },
+    "eslintConfig": {
+        "extends": [
+            "eslint:recommended",
+            "plugin:react/recommended"
+        ]
+    },
+    "dependencies": {
+        "apollo-link": "^1.2.14",
+        "apollo-server-express": "^2.13.1",
+        "bcryptjs": "^2.4.3",
+        "body-parser": "^1.19.0",
+        "dotenv": "^8.2.0",
+        "eslint-config-prettier": "^6.11.0",
+        "eslint-plugin-node": "^11.1.0",
+        "eslint-plugin-react": "^7.20.0",
+        "express": "^4.17.1",
+        "formik": "^2.1.5",
+        "graphql": "^15.0.0",
+        "graphql-tools": "^5.0.0",
+        "jsonwebtoken": "^8.5.1",
+        "lodash": "^4.17.19",
+        "merge-graphql-schemas": "^1.7.8",
+        "pg": "^8.1.0",
+        "pg-hstore": "^2.3.3",
+        "sequelize": "^5.21.8"
     }
-  },
-  "name": "slack-clone-server",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "nodemon --exec babel-node server.js",
-    "heroku-postbuild": "cd slack-clone-client && npm install && npm run build",
-    "lint": "eslint \"**/*.js\" --ignore-pattern node_modules/ slack-clone-client/ && npm run pretify",
-    "pretify": "npx prettier --config ./.prettierrc.json -c . --write"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-stage-3": "^6.24.1",
-    "eslint": "^6.8.0",
-    "eslint-config-airbnb-base": "^14.1.0",
-    "eslint-plugin-import": "^2.20.2",
-    "husky": "^4.2.5",
-    "nodemon": "^2.0.4",
-    "prettier": "2.0.5"
-  },
-  "eslintConfig": {
-    "extends": [
-      "eslint:recommended",
-      "plugin:react/recommended"
-    ]
-  },
-  "dependencies": {
-    "apollo-link": "^1.2.14",
-    "apollo-server-express": "^2.13.1",
-    "bcryptjs": "^2.4.3",
-    "body-parser": "^1.19.0",
-    "dotenv": "^8.2.0",
-    "eslint-config-prettier": "^6.11.0",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-react": "^7.20.0",
-    "express": "^4.17.1",
-    "formik": "^2.1.5",
-    "graphql": "^15.0.0",
-    "graphql-tools": "^5.0.0",
-    "jsonwebtoken": "^8.5.1",
-    "lodash": "^4.17.19",
-    "merge-graphql-schemas": "^1.7.8",
-    "pg": "^8.1.0",
-    "pg-hstore": "^2.3.3",
-    "sequelize": "^5.21.8"
-  }
 }

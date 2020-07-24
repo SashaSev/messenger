@@ -9,7 +9,10 @@ import { graphql } from 'react-apollo';
 
 const Login = (props) => {
   const [data, setData] = useState(() => observable({
-    email: '', password: '', emailError: '', passwordError: '',
+    email: '',
+    password: '',
+    emailError: '',
+    passwordError: '',
   }));
   const {
     email, password, emailError, passwordError,
@@ -54,51 +57,51 @@ const Login = (props) => {
     errorList.push(passwordError);
   }
   return (
-    <Container text>
-      <Header as="h2">Login</Header>
-      <Input
-        style={{ marginBottom: '10px' }}
-        name="email"
-        value={email}
-        onChange={onChange}
-        placeholder={'Email'}
-        fluid
-      />
-      <Input
-        style={{ marginBottom: '10px' }}
-        type={'password'}
-        name="password"
-        value={password}
-        onChange={onChange}
-        placeholder={'Password'}
-        fluid
-      />
-      <Button style={{ marginLeft: '15vw' }} onClick={onSubmit}>
-        Submit
-      </Button>
-      {errorList.length > 0 ? (
-        <Message
-          error
-          header={'There was some errors with your submission'}
-          list={errorList}
-        />
-      ) : null}
-    </Container>
+        <Container text>
+            <Header as="h2">Login</Header>
+            <Input
+                style={{ marginBottom: '10px' }}
+                name="email"
+                value={email}
+                onChange={onChange}
+                placeholder={'Email'}
+                fluid
+            />
+            <Input
+                style={{ marginBottom: '10px' }}
+                type={'password'}
+                name="password"
+                value={password}
+                onChange={onChange}
+                placeholder={'Password'}
+                fluid
+            />
+            <Button style={{ marginLeft: '15vw' }} onClick={onSubmit}>
+                Submit
+            </Button>
+            {errorList.length > 0 ? (
+                <Message
+                    error
+                    header={'There was some errors with your submission'}
+                    list={errorList}
+                />
+            ) : null}
+        </Container>
   );
 };
 
 const loginMutation = gql`
-  mutation($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
-      ok
-      token
-      refreshToken
-      errors {
-        path
-        message
-      }
+    mutation($email: String!, $password: String!) {
+        login(email: $email, password: $password) {
+            ok
+            token
+            refreshToken
+            errors {
+                path
+                message
+            }
+        }
     }
-  }
 `;
 
 export default graphql(loginMutation)(observer(Login));

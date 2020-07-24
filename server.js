@@ -50,7 +50,7 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-models.sequelize.sync({ }).then(() => {
+models.sequelize.sync({}).then(() => {
   app.listen({ port: 5001 });
 });
 //  "husky": {

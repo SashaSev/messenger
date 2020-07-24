@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 export const AllTeamQuery = gql`
-   query {
+    query {
         allTeams {
             id
             name

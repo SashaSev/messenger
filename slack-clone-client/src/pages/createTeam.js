@@ -51,44 +51,44 @@ const CreateTeam = (props) => {
     errorList.push(nameError);
   }
   return (
-    <Container text>
-      <Header as="h2">Team</Header>
-      <Input
-        style={{ marginBottom: '10px' }}
-        name="name"
-        value={name}
-        error={!!nameError}
-        onChange={onChange}
-        placeholder={'Team name'}
-        fluid
-      />
-      <Button style={{ marginLeft: '15vw' }} onClick={onSubmit}>
-        Submit
-      </Button>
-      {errorList.length > 0 ? (
-        <Message
-          error
-          header={'There was some errors with your submission'}
-          list={errorList}
-        />
-      ) : null}
-    </Container>
+        <Container text>
+            <Header as="h2">Team</Header>
+            <Input
+                style={{ marginBottom: '10px' }}
+                name="name"
+                value={name}
+                error={!!nameError}
+                onChange={onChange}
+                placeholder={'Team name'}
+                fluid
+            />
+            <Button style={{ marginLeft: '15vw' }} onClick={onSubmit}>
+                Submit
+            </Button>
+            {errorList.length > 0 ? (
+                <Message
+                    error
+                    header={'There was some errors with your submission'}
+                    list={errorList}
+                />
+            ) : null}
+        </Container>
   );
 };
 
 const loginMutation = gql`
-  mutation($name: String!) {
-    createTeam(name: $name) {
-      ok
-      team {
-        id
-      }
-      errors {
-        path
-        message
-      }
+    mutation($name: String!) {
+        createTeam(name: $name) {
+            ok
+            team {
+                id
+            }
+            errors {
+                path
+                message
+            }
+        }
     }
-  }
 `;
 
 export default graphql(loginMutation)(observer(CreateTeam));

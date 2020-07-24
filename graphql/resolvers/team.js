@@ -10,10 +10,13 @@ export default {
       }),
     ),
     inviteTeam: requireAuth.createResolver(
-      async (parent, args, { models, user }) => models.sequelize.query('select * from members on id = team_id where user_id = ? ', {
-        replacements: [user.id],
-        model: models.Team,
-      }),
+      async (parent, args, { models, user }) => models.sequelize.query(
+        'select * from members on id = team_id where user_id = ? ',
+        {
+          replacements: [user.id],
+          model: models.Team,
+        },
+      ),
     ),
     // inviteTeam: requireAuth.createResolver(
     //   async (parent, args, { models, user }) => models.Team.findAll({
@@ -26,23 +29,24 @@ export default {
     //     raw: true,
     //   }),
     // ),
-
   },
   Mutation: {
     createTeam: async (parent, args, { models, user }) => {
       try {
-        const response = await models.sequelize.transaction(async () => {
-          const team = await models.Team.create({
-            ...args,
-            owner: user.id,
-          });
-          await models.Channel.create({
-            name: 'general',
-            public: true,
-            teamId: team.id,
-          });
-          return team;
-        });
+        const response = await models.sequelize.transaction(
+          async () => {
+            const team = await models.Team.create({
+              ...args,
+              owner: user.id,
+            });
+            await models.Channel.create({
+              name: 'general',
+              public: true,
+              teamId: team.id,
+            });
+            return team;
+          },
+        );
 
         return {
           ok: true,
@@ -65,23 +69,30 @@ export default {
           where: { email },
           raw: true,
         });
-        const [team, userToAdd] = await Promise.all([teamPromise, UserToAddPromise]);
+        const [team, userToAdd] = await Promise.all([
+          teamPromise,
+          UserToAddPromise,
+        ]);
         if (team.owner !== user.id) {
           return {
             ok: false,
-            error: [{
-              path: 'email',
-              message: 'You cannot add member Team',
-            }],
+            error: [
+              {
+                path: 'email',
+                message: 'You cannot add member Team',
+              },
+            ],
           };
         }
         if (!userToAdd) {
           return {
             ok: false,
-            error: [{
-              path: 'email',
-              message: 'Could not find user this email',
-            }],
+            error: [
+              {
+                path: 'email',
+                message: 'Could not find user this email',
+              },
+            ],
           };
         }
         await models.Member.create({
