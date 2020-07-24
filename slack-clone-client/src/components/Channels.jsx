@@ -57,7 +57,7 @@ const user = ({ id, name }) => (
 );
 
 export default ({
-  teamName, username, channels, users, onAddChannels, teamId, onInvitePeopleClick,
+  teamName, username, isOOwner, channels, users, onAddChannels, teamId, onInvitePeopleClick,
 }) => (
     <ChannelWrapper>
         <PushLeft>

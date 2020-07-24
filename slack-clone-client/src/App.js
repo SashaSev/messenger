@@ -36,7 +36,7 @@ function App() {
       <Route path={'/register'} component={Register} />
       <Route path={'/login'} component={Login} />
       <PrivateRoute path={'/create-team'} component={CreateTeam} />
-      <Route path={'/view-team/:teamId?/:channelId?'} component={ViewTeam} />
+      <PrivateRoute path={'/view-team/:teamId?/:channelId?'} component={ViewTeam} />
     </Switch>
   );
 }

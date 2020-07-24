@@ -9,9 +9,9 @@ import { flowRight as compose } from 'lodash';
 import normalizeErrors from '../NormalizeError';
 
 const InvokeChanelModal = ({
-  open, onCLose, values, handleChange, handleBlur, handleSubmit, isSubmitting, touched, errors,
+  open, onClose, values, handleChange, handleBlur, handleSubmit, isSubmitting, touched, errors,
 }) => (
-    <Modal open={open} onClose={onCLose}>
+    <Modal open={open} onClose={onClose}>
         <ModalHeader>Add People to your Team</ModalHeader>
         <ModalContent>
             <Form>
@@ -27,7 +27,7 @@ const InvokeChanelModal = ({
                 </FormField>
                 {touched.email && errors.email ? errors.email[0] : null}
                 <FormGroup widths={'equal'}>
-                    <Button disabled={isSubmitting} type={'button'} fluid onClick={onCLose}>
+                    <Button disabled={isSubmitting} type={'button'} fluid onClick={onClose}>
                         Cancel
                     </Button>
                     <Button disabled={isSubmitting} type={'submit'} onClick={handleSubmit} fluid>
@@ -65,7 +65,6 @@ export default compose(
         },
       });
       const { ok, error } = response.data.addTeamMember;
-      console.log(error);
       if (ok) {
         onClose();
         setSubmitting(false);

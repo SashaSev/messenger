@@ -10,9 +10,9 @@ import findIndex from 'lodash/findIndex';
 import { AllTeamQuery } from '../graphql/team';
 
 const AddChanellModal = ({
-  open, onCLose, values, handleChange, handleBlur, handleSubmit, isSubmitting,
+  open, onClose, values, handleChange, handleBlur, handleSubmit, isSubmitting,
 }) => (
-    <Modal open={open} onClose={onCLose}>
+    <Modal open={open} onClose={onClose}>
         <ModalHeader>Add Channel</ModalHeader>
         <ModalContent>
             <Form>
@@ -21,7 +21,7 @@ const AddChanellModal = ({
                            name={'name'} fluid placeholder={'Channel name'}/>
                 </FormField>
                 <FormGroup widths={'equal'}>
-                    <Button disabled={isSubmitting} onClick={onCLose} fluid>Cancel</Button>
+                    <Button disabled={isSubmitting} onClick={onClose} fluid>Cancel</Button>
                     <Button disabled={isSubmitting} onClick={handleSubmit} fluid>Create
                         Channel</Button>
                 </FormGroup>
@@ -65,6 +65,7 @@ export default compose(
         },
         update: (store, { data: { createChannel } }) => {
           const { ok, channel } = createChannel;
+          console.log(createChannel);
           if (!ok) {
             return;
           }

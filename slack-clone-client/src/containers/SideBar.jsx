@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import decode from 'jwt-decode';
 import Channels from '../components/Channels';
 import Teams from '../components/Teams';
@@ -9,23 +9,42 @@ const SideBar = ({ teams, team }) => {
   const [openModal, setOpenModal] = useState(false);
   const [openInvokeModal, setOpenInvokeModal] = useState(false);
 
-  const handleChanelModalClose = () => {
+  useEffect(() => {
+    setOpenModal(false);
+    return () => setOpenModal(true);
+  }, []);
+
+  const handleChanelModalClose = (e) => {
+    if (e) {
+      e.preventDefault();
+    }
     setOpenModal(false);
   };
-  const handleChanelModal = () => {
+  const handleChanelModal = (e) => {
+    if (e) {
+      e.preventDefault();
+    }
     setOpenModal(true);
   };
-  const handleInvokeClose = () => {
+  const handleInvokeClose = (e) => {
+    if (e) {
+      e.preventDefault();
+    }
     setOpenInvokeModal(false);
   };
-  const handleInvitePeopleClick = () => {
+  const handleInvitePeopleClick = (e) => {
+    if (e) {
+      e.preventDefault();
+    }
     setOpenInvokeModal(true);
   };
   let username = '';
+  let isOwner = false;
   try {
     const token = localStorage.getItem('token');
     const { user } = decode(token);
     username = user.username;
+    isOwner = team.owner === user.id;
   } catch (e) {
 
   }
@@ -41,6 +60,7 @@ const SideBar = ({ teams, team }) => {
             teamId={team.id}
             channels={team.channels}
             onAddChannels={handleChanelModal}
+            isOwner={isOwner}
             onInvitePeopleClick={handleInvitePeopleClick}
             users={[
               {
