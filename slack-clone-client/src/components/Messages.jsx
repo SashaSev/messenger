@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 export default styled.div`
     grid-column: 3;
@@ -6,4 +6,4 @@ export default styled.div`
     padding-left: 20px;
     padding-right: 20px;
     background-color: #ffffff;
-`;
+`
