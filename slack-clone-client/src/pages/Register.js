@@ -70,59 +70,59 @@ const Register = (props) => {
   }
 
   return (
-        <Container text>
-            <Header as="h2">Register</Header>
-            <Input
-                style={{ marginBottom: '10px' }}
-                error={!!usernameError}
-                name="username"
-                value={data.username}
-                onChange={onChange}
-                placeholder={'Username'}
-                fluid
-            />
-            <Input
-                style={{ marginBottom: '10px' }}
-                error={!!emailError}
-                name="email"
-                value={data.email}
-                onChange={onChange}
-                placeholder={'Email'}
-                fluid
-            />
-            <Input
-                style={{ marginBottom: '10px' }}
-                error={!!passwordError}
-                type={'password'}
-                name="password"
-                value={data.password}
-                onChange={onChange}
-                placeholder={'Password'}
-                fluid
-            />
-            <Button style={{ marginLeft: '15vw' }} onClick={onSubmit}>
-                Submit
-            </Button>
-            {errorList.length > 0 ? (
-                <Message
-                    error
-                    header={'There was some errors with your submission'}
-                    list={errorList}
-                />
-            ) : null}
-        </Container>
+    <Container text>
+      <Header as="h2">Register</Header>
+      <Input
+        style={{ marginBottom: '10px' }}
+        error={!!usernameError}
+        name="username"
+        value={data.username}
+        onChange={onChange}
+        placeholder={'Username'}
+        fluid
+      />
+      <Input
+        style={{ marginBottom: '10px' }}
+        error={!!emailError}
+        name="email"
+        value={data.email}
+        onChange={onChange}
+        placeholder={'Email'}
+        fluid
+      />
+      <Input
+        style={{ marginBottom: '10px' }}
+        error={!!passwordError}
+        type={'password'}
+        name="password"
+        value={data.password}
+        onChange={onChange}
+        placeholder={'Password'}
+        fluid
+      />
+      <Button style={{ marginLeft: '15vw' }} onClick={onSubmit}>
+        Submit
+      </Button>
+      {errorList.length > 0 ? (
+        <Message
+          error
+          header={'There was some errors with your submission'}
+          list={errorList}
+        />
+      ) : null}
+    </Container>
   );
 };
 const registerMutation = gql`
-    mutation($username: String!, $email: String!, $password: String!) {
-        register(username: $username, email: $email, password: $password) {
-            ok
-            errors {
-                path
-                message
-            }
-        }
+  mutation($username: String!, $email: String!, $password: String!) {
+    register(username: $username, email: $email, password: $password) {
+      ok
+      errors {
+        path
+        message
+      }
     }
+  }
 `;
 
 export default graphql(registerMutation)(Register);

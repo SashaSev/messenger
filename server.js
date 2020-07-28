@@ -3,7 +3,11 @@ import dotenv from 'dotenv';
 import { ApolloServer } from 'apollo-server-express';
 import { makeExecutableSchema } from 'graphql-tools';
 import path from 'path';
+import { createServer } from 'http';
 import { fileLoader, mergeTypes, mergeResolvers } from 'merge-graphql-schemas';
+import { execute, subscribe } from 'graphql';
+// import { PubSub } from 'graphql-subscriptions';
+import { SubscriptionServer } from 'subscriptions-transport-ws';
 import { addUser } from './middleware/userMiddleware';
 
 import models from './models';
@@ -29,7 +33,7 @@ export const schema = makeExecutableSchema({
   typeDefs,
   resolvers,
 });
-const server = new ApolloServer({
+app.use(() => new ApolloServer({
   schema,
   context: async ({ req }) => ({
     models,
@@ -37,9 +41,8 @@ const server = new ApolloServer({
     SECRET,
     refreshSECRET,
   }),
-});
-
-server.applyMiddleware({ app });
+}));
+const server = createServer(app);
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('slack-clone-client/build'));
@@ -49,10 +52,22 @@ if (process.env.NODE_ENV === 'production') {
     );
   });
 }
+const PORT = process.env.PORT || 8081;
+models.sequelize.sync({})
+  .then(() => {
+    server.listen(PORT, () => {
+      // eslint-disable-next-line no-new
+      new SubscriptionServer({
+        execute,
+        subscribe,
+        schema,
+      }, {
+        server,
+        path: '/subscriptions',
+      });
+    });
+  });
 
-models.sequelize.sync({}).then(() => {
-  app.listen({ port: 5001 });
-});
 //  "husky": {
 //    "hooks": {
 //      "pre-commit": "npm run lint"

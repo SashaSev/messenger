@@ -22,29 +22,25 @@ const isAuthenticated = () => {
 };
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
-    <Route
-        {...rest}
-        render={(props) => (isAuthenticated ? (
-                <Component {...props} />
-        ) : (
-                <Redirect to="/login" />
-        ))
-        }
-    />
+  <Route
+    {...rest}
+    render={(props) => (isAuthenticated ? <Component {...props} /> : <Redirect to="/login" />)
+    }
+  />
 );
 
 function App() {
   return (
-        <Switch>
-            <Route path={'/'} exact component={Home} />
-            <Route path={'/register'} component={Register} />
-            <Route path={'/login'} component={Login} />
-            <PrivateRoute path={'/create-team'} component={CreateTeam} />
-            <PrivateRoute
-                path={'/view-team/:teamId?/:channelId?'}
-                component={ViewTeam}
-            />
-        </Switch>
+    <Switch>
+      <Route path={'/'} exact component={Home} />
+      <Route path={'/register'} component={Register} />
+      <Route path={'/login'} component={Login} />
+      <PrivateRoute path={'/create-team'} component={CreateTeam} />
+      <PrivateRoute
+        path={'/view-team/:teamId?/:channelId?'}
+        component={ViewTeam}
+      />
+    </Switch>
   );
 }
 

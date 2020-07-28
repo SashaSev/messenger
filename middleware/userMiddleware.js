@@ -22,11 +22,7 @@ export const addUser = async (req, res, next) => {
         refreshSECRET,
       );
       if (newToken.token && newToken.refreshToken) {
-        res.set(
-          'Access-Control-Expose-Headers',
-          'x-token',
-          'x-token-refresh',
-        );
+        res.set('Access-Control-Expose-Headers', 'x-token', 'x-token-refresh');
         res.set('x-token', newToken.token);
         res.set('x-token-refresh', newToken.refreshToken);
       }
