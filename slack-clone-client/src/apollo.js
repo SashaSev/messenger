@@ -5,6 +5,7 @@ import { createHttpLink } from 'apollo-link-http';
 import { split } from '@apollo/client';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { WebSocketLink } from '@apollo/client/link/ws';
+import { onError } from '@apollo/client/link/error';
 
 // eslint-disable-next-line new-cap
 const httpLink = createHttpLink({
@@ -16,6 +17,21 @@ const wsLink = new WebSocketLink({
   options: {
     reconnect: true,
   },
+});
+// eslint-disable-next-line consistent-return,no-unused-vars
+const errorLink = onError((error) => {
+  const {
+    // eslint-disable-next-line no-unused-vars
+    graphQLErrors = [], networkError = {}, operation = {}, forward,
+  } = error || {};
+  const { getContext } = operation || {};
+  // eslint-disable-next-line no-unused-vars
+  const { scope, headers = {} } = getContext() || {};
+  const { message: networkErrorMessage = '' } = networkError || {};
+  const networkFailed = (message) => typeof message === 'string'
+    && message.startsWith('NetworkError when attempting to fetch resource');
+
+  if (networkFailed(networkErrorMessage)) return forward(operation);
 });
 const middlewareLink = new ApolloLink((operation, forward) => {
   operation.setContext({

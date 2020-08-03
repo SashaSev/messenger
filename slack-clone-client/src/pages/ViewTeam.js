@@ -20,7 +20,7 @@ const ViewTeam = ({
   }
 
   if (!allTeams?.length) {
-    return <Redirect to={'/create-team'} />;
+    return <Redirect to={'/create-team'}/>;
   }
   const teams = [...allTeams, ...inviteTeam];
   const teamIdInteger = parseInt(teamId, 10);
@@ -38,13 +38,14 @@ const ViewTeam = ({
       <SideBar
         teams={teams.map((t) => ({
           id: t.id,
-          letter: t.name.charAt(0).toUpperCase(),
+          letter: t.name.charAt(0)
+            .toUpperCase(),
         }))}
         team={team}
       />
-      {channel && <Header channelName={channel.name} />}
-      {channel && <MessageContainer channelId={channel.id} />}
-      <SendMessage channelName={channel.name} channelId={channel.id} />
+      {channel && <Header channelName={channel.name}/>}
+      {channel && <MessageContainer channelId={channel.id}/>}
+      <SendMessage channelName={channel.name} channelId={channel.id}/>
     </AppLayout>
   );
 };
